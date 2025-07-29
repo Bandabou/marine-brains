@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 const animals = [
   { name: 'Dolphin', slug: 'dolphin', img: '/animals/dolphin/dolphin.jpg' },
-  { name: 'Octopus', slug: 'octopus', img: '/animals/octopus.jpg' },
-  { name: 'Whale', slug: 'whale', img: '/animals/whale.jpg' },
+  { name: 'Octopus', slug: 'octopus', img: '/animals/octopus/octopus.jpg' },
+  { name: 'Whale', slug: 'whale', img: '/animals/whale/whale.jpg' },
 ];
 
 export default function AnimalsPage() {
