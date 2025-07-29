@@ -47,13 +47,11 @@ const animalData = {
 };
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
-export default async function AnimalPage({ params }: PageProps) {
-  const { slug } = await params; // Await the params object
-
-  const animal = animalData[slug as keyof typeof animalData];
+export default function AnimalPage({ params }: PageProps) {
+  const animal = animalData[params.slug as keyof typeof animalData];
 
   if (!animal) {
     return <div className="text-white p-8">Animal not found</div>;
