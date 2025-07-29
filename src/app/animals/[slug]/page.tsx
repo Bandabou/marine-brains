@@ -29,7 +29,6 @@ const animalData = {
     funFact:
       'Octopuses can change both the color and texture of their skin using specialized cells called chromatophores and papillae!',
   },
-
   whale: {
     name: 'Whale',
     image: '/animals/whale/whale_page.jpg',
@@ -43,15 +42,16 @@ const animalData = {
     funFact:
       'The blue whale’s brain weighs around 15 pounds, yet it feeds mostly on tiny krill — talk about brain vs. brawn!',
   },
-  // Add more animals...
 };
 
 type PageProps = {
-  params: { slug: string };
+  params: { slug: string };  // <-- Not a Promise
 };
 
-export default function AnimalPage({ params }: PageProps) {
-  const animal = animalData[params.slug as keyof typeof animalData];
+export default async function AnimalPage({ params }: PageProps) {
+  const slug = params.slug;
+
+  const animal = animalData[slug as keyof typeof animalData];
 
   if (!animal) {
     return <div className="text-white p-8">Animal not found</div>;
@@ -59,7 +59,6 @@ export default function AnimalPage({ params }: PageProps) {
 
   return (
     <main className="text-white px-6 py-10 max-w-4xl mx-auto">
-      {/* Back Button above the image */}
       <Link
         href="/animals"
         className="inline-block mb-4 text-purple-300 border border-purple-400 px-3 py-1 rounded hover:bg-purple-700/20 transition"
@@ -67,7 +66,6 @@ export default function AnimalPage({ params }: PageProps) {
         ← Back
       </Link>
 
-      {/* Hero Image & Title */}
       <div className="relative w-full h-64 rounded-xl overflow-hidden mb-6">
         <Image
           src={animal.image}
@@ -83,7 +81,6 @@ export default function AnimalPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Sections */}
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">Overview</h2>
         <p className="text-gray-300">{animal.overview}</p>
