@@ -44,14 +44,12 @@ const animalData = {
   },
 };
 
-type PageProps = {
-  params: { slug: string };  // <-- Not a Promise
-};
+type Params = Promise<{ slug: keyof typeof animalData }>;
 
-export default async function AnimalPage({ params }: PageProps) {
-  const slug = params.slug;
+export default async function AnimalPage({ params }: { params: Params }) {
+  const { slug } = await params;  // <-- await the promise
 
-  const animal = animalData[slug as keyof typeof animalData];
+  const animal = animalData[slug];
 
   if (!animal) {
     return <div className="text-white p-8">Animal not found</div>;
