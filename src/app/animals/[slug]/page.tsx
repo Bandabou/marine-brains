@@ -44,61 +44,67 @@ const animalData = {
       'The blue whale’s brain weighs around 15 pounds, yet it feeds mostly on tiny krill — talk about brain vs. brawn!',
   },
   // Add more animals...
-  
 };
 
-export default function AnimalPage({ params }: { params: { slug: string } }) {
-  const animal = animalData[params.slug as keyof typeof animalData];
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
 
-  if (!animal) return <div className="text-white p-8">Animal not found</div>;
+export default async function AnimalPage({ params }: PageProps) {
+  const { slug } = await params; // Await the params object
+
+  const animal = animalData[slug as keyof typeof animalData];
+
+  if (!animal) {
+    return <div className="text-white p-8">Animal not found</div>;
+  }
 
   return (
-  <main className="text-white px-6 py-10 max-w-4xl mx-auto">
-    {/* Back Button above the image */}
-    <Link
-      href="/animals"
-      className="inline-block mb-4 text-purple-300 border border-purple-400 px-3 py-1 rounded hover:bg-purple-700/20 transition"
-    >
-      ← Back
-    </Link>
+    <main className="text-white px-6 py-10 max-w-4xl mx-auto">
+      {/* Back Button above the image */}
+      <Link
+        href="/animals"
+        className="inline-block mb-4 text-purple-300 border border-purple-400 px-3 py-1 rounded hover:bg-purple-700/20 transition"
+      >
+        ← Back
+      </Link>
 
-    {/* Hero Image & Title */}
-    <div className="relative w-full h-64 rounded-xl overflow-hidden mb-6">
-      <Image
-        src={animal.image}
-        alt={animal.name}
-        layout="fill"
-        objectFit="cover"
-        className="opacity-80"
-      />
-      <div className="absolute inset-0 bg-opacity-40 flex flex-col justify-center items-center">
-        <h1 className="text-4xl font-bold">{animal.name}</h1>
-        <p className="italic text-lg">{animal.scientificName}</p>
+      {/* Hero Image & Title */}
+      <div className="relative w-full h-64 rounded-xl overflow-hidden mb-6">
+        <Image
+          src={animal.image}
+          alt={animal.name}
+          fill
+          style={{ objectFit: 'cover' }}
+          className="opacity-80"
+          priority
+        />
+        <div className="absolute inset-0 bg-opacity-40 flex flex-col justify-center items-center">
+          <h1 className="text-4xl font-bold">{animal.name}</h1>
+          <p className="italic text-lg">{animal.scientificName}</p>
+        </div>
       </div>
-    </div>
 
-    {/* Sections */}
-    <section className="mb-6">
-      <h2 className="text-2xl font-semibold mb-2">Overview</h2>
-      <p className="text-gray-300">{animal.overview}</p>
-    </section>
+      {/* Sections */}
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold mb-2">Overview</h2>
+        <p className="text-gray-300">{animal.overview}</p>
+      </section>
 
-    <section className="mb-6">
-      <h2 className="text-2xl font-semibold mb-2">Brain Anatomy</h2>
-      <p className="text-gray-300">{animal.brainAnatomy}</p>
-    </section>
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold mb-2">Brain Anatomy</h2>
+        <p className="text-gray-300">{animal.brainAnatomy}</p>
+      </section>
 
-    <section className="mb-6">
-      <h2 className="text-2xl font-semibold mb-2">Behavior & Intelligence</h2>
-      <p className="text-gray-300">{animal.behavior}</p>
-    </section>
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold mb-2">Behavior & Intelligence</h2>
+        <p className="text-gray-300">{animal.behavior}</p>
+      </section>
 
-    <section className="mb-10 p-4 border-l-4 border-purple-500 bg-purple-900/20 rounded-lg">
-      <h3 className="text-xl font-semibold mb-1">Did you know?</h3>
-      <p className="text-purple-200">{animal.funFact}</p>
-    </section>
-  </main>
-);
-
-  
+      <section className="mb-10 p-4 border-l-4 border-purple-500 bg-purple-900/20 rounded-lg">
+        <h3 className="text-xl font-semibold mb-1">Did you know?</h3>
+        <p className="text-purple-200">{animal.funFact}</p>
+      </section>
+    </main>
+  );
 }
